@@ -11,7 +11,14 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import dj_database_url
+ON_HEROKU = True
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+# try to load local_settings.py if it exists
+try:
+    from local_settings import *
+except Exception as e:
+    pass
 
 
 # Quick-start development settings - unsuitable for production
@@ -56,14 +63,16 @@ WSGI_APPLICATION = 'iplh2h.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if ON_HEROKU:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
-
+else:
+    # Parse database configuration from $DATABASE_URL
+    DATABASES['default'] =  dj_database_url.config()
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -80,10 +89,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
-STATIC_URL = '/static/'
-# Parse database configuration from $DATABASE_URL
-DATABASES['default'] =  dj_database_url.config()
+# STATIC_URL = '/static/'
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -99,3 +105,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+# ref: https://realpython.com/blog/python/migrating-your-django-project-to-heroku/
+# http://stackoverflow.com/questions/27195215/django-1-7-1-keeps-on-using-the-dummy-db-engine
+# http://stackoverflow.com/questions/26080303/improperlyconfigured-settings-databases-is-improperly-configured-please-supply
