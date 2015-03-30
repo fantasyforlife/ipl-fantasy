@@ -1,0 +1,34 @@
+#tg-table
+{
+	float: left;
+	margin-left: 2px;
+}
+
+#hg-table
+{
+    float: right;
+    margin-right: 2px
+}
+
+#stats
+{
+	/*padding-left: 5px;
+	float: center;*/
+	position:relative;
+	left:0;
+	right:0;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.table-nonfluid {
+   width: auto !important;
+}
+
+.blockquote-reverse {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+/*http://stackoverflow.com/questions/10687306/why-do-twitter-bootstrap-tables-always-have-100-width*/
