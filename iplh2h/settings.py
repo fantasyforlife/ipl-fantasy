@@ -63,6 +63,11 @@ WSGI_APPLICATION = 'iplh2h.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 if ON_HEROKU:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+        }
+    }
     # Parse database configuration from $DATABASE_URL
     DATABASES['default'] =  dj_database_url.config()
 else:    
@@ -90,7 +95,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-# STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -108,6 +113,7 @@ STATICFILES_DIRS = (
 )
 
 # ref: https://realpython.com/blog/python/migrating-your-django-project-to-heroku/
+# https://realpython.com/blog/python/digging-deeper-into-migrations/
 # http://stackoverflow.com/questions/27195215/django-1-7-1-keeps-on-using-the-dummy-db-engine
 # http://stackoverflow.com/questions/26080303/improperlyconfigured-settings-databases-is-improperly-configured-please-supply
 # http://stackoverflow.com/questions/11826326/django-error-in-heroku-please-supply-the-engine-value
