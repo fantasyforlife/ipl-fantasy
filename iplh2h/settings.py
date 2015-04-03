@@ -14,13 +14,6 @@ import dj_database_url
 ON_HEROKU = True
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-# try to load local_settings.py if it exists
-try:
-    from local_settings import *
-except Exception as e:
-    pass
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -29,11 +22,16 @@ DEFAULT_SECRET_KEY = '@wrb6az#8==dpd#e84yw%z=fk5cy1!4#e*c@zysr%^d9%#gqqf'
 SECRET_KEY = os.environ.get('SECRET_KEY', DEFAULT_SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
+# try to load local_settings.py if it exists
+try:
+    from local_settings import *
+except Exception as e:
+    pass
 
 # Application definition
 
@@ -44,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'h2h',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -64,16 +63,17 @@ WSGI_APPLICATION = 'iplh2h.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 if ON_HEROKU:
-    DATABASES = {
-        'default': {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            # 'ENGINE': 'django.db.backends.sqlite3',
-            # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-else:
     # Parse database configuration from $DATABASE_URL
     DATABASES['default'] =  dj_database_url.config()
+else:    
+    DATABASES = {
+        'default': {
+            # "ENGINE": "django.db.backends.postgresql_psycopg2",
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -110,3 +110,5 @@ STATICFILES_DIRS = (
 # ref: https://realpython.com/blog/python/migrating-your-django-project-to-heroku/
 # http://stackoverflow.com/questions/27195215/django-1-7-1-keeps-on-using-the-dummy-db-engine
 # http://stackoverflow.com/questions/26080303/improperlyconfigured-settings-databases-is-improperly-configured-please-supply
+# http://stackoverflow.com/questions/11826326/django-error-in-heroku-please-supply-the-engine-value
+# http://stackoverflow.com/questions/26094390/django-sqlite-overriding-postgresql-db-on-heroku-when-pushing-from-local-develo
