@@ -9,7 +9,7 @@ class User(models.Model):
     t_url = models.URLField()
 
 class Matches(models.Model):
-    m_id = models.IntegerField(null=True)
+    m_id = models.IntegerField()
     team1 = models.IntegerField()
     team2 = models.IntegerField()
     team1_score = models.IntegerField(default=0)
